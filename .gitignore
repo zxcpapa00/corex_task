@@ -1,5 +1,3 @@
-
-
 db.sqlite3
 .idea
 corex_task/asgi.py
@@ -7,3 +5,4 @@ corex_task/wsgi.py
 corex_task/__pycache__
 
 tasks/migrations
+tasks/__pycache__/
