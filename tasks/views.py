@@ -1,6 +1,7 @@
 from rest_framework import generics
-from .models import Test
-from .serializers import TestSerializer
+from django.views.generic import ListView, DetailView
+from .models import Test, Question
+from .serializers import TestSerializer, QuestionSerializer
 
 
 class TestListCreateView(generics.ListCreateAPIView):
@@ -8,6 +9,21 @@ class TestListCreateView(generics.ListCreateAPIView):
     serializer_class = TestSerializer
 
 
+class QuestionCreateView(generics.CreateAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+
+
 class TestRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Test.objects.all()
     serializer_class = TestSerializer
+
+
+class IndexView(ListView):
+    template_name = 'index.html'
+    queryset = Test.objects.all()
+
+
+class TestDetailView(DetailView):
+    template_name = 'test.html'
+    queryset = Test.objects.all()
