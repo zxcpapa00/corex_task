@@ -21,10 +21,13 @@ class Answer(models.Model):
     text = models.TextField()
     is_correct = models.BooleanField()
 
+    def __str__(self):
+        return self.text
+
 
 class UserAnswer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.question.text}"
+        return self.question.text
