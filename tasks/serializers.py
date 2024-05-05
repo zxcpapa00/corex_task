@@ -1,11 +1,25 @@
 from rest_framework import serializers
-from .models import Test, Question
+from .models import Test, Question, UserAnswer, Answer
+
+
+class UserAnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserAnswer
+        fields = '__all__'
+
+
+class AnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = '__all__'
 
 
 class QuestionSerializer(serializers.ModelSerializer):
+    answers = AnswerSerializer(many=True, read_only=True)
+
     class Meta:
         model = Question
-        fields = ['id', 'test', 'text', 'correct_answer']
+        fields = '__all__'
 
 
 class TestSerializer(serializers.ModelSerializer):
@@ -13,4 +27,4 @@ class TestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Test
-        fields = ['id', 'name', 'questions']
+        fields = '__all__'
