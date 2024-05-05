@@ -1,12 +1,15 @@
-from django.urls import path
-from .views import TestListCreateView, TestRetrieveUpdateDestroyView, QuestionCreateView, IndexView, TestDetailView
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
+from .views import TestViewSet, QuestionViewSet, AnswerViewSet, UserAnswerViewSet
 
 app_name = "tasks"
+router = DefaultRouter()
+router.register(r'tests', TestViewSet)
+router.register(r'questions', QuestionViewSet)
+router.register(r'answers', AnswerViewSet)
+router.register(r'user-answers', UserAnswerViewSet)
 
 urlpatterns = [
-    path('', IndexView.as_view(), name='index'),
-    path('<int:pk>/', TestDetailView.as_view(), name='test'),
-    path('api/', TestListCreateView.as_view(), name='test-list'),
-    path('api/<int:pk>/', TestRetrieveUpdateDestroyView.as_view(), name='test-detail'),
-    path('api/question/', QuestionCreateView.as_view(), name='question-create')
+    path('api/', include(router.urls))
 ]

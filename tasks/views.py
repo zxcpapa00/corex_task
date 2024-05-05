@@ -1,29 +1,23 @@
-from rest_framework import generics
-from django.views.generic import ListView, DetailView
-from .models import Test, Question
-from .serializers import TestSerializer, QuestionSerializer
+from rest_framework import viewsets
+from .models import Test, Question, Answer, UserAnswer
+from .serializers import TestSerializer, QuestionSerializer, UserAnswerSerializer, AnswerSerializer
 
 
-class TestListCreateView(generics.ListCreateAPIView):
+class UserAnswerViewSet(viewsets.ModelViewSet):
+    queryset = UserAnswer.objects.all()
+    serializer_class = UserAnswerSerializer
+
+
+class TestViewSet(viewsets.ModelViewSet):
     queryset = Test.objects.all()
     serializer_class = TestSerializer
 
 
-class QuestionCreateView(generics.CreateAPIView):
+class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
 
 
-class TestRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Test.objects.all()
-    serializer_class = TestSerializer
-
-
-class IndexView(ListView):
-    template_name = 'index.html'
-    queryset = Test.objects.all()
-
-
-class TestDetailView(DetailView):
-    template_name = 'test.html'
-    queryset = Test.objects.all()
+class AnswerViewSet(viewsets.ModelViewSet):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
