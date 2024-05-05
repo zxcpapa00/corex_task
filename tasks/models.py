@@ -1,4 +1,5 @@
 from django.db import models
+from rest_framework.exceptions import ValidationError
 
 
 class Test(models.Model):
@@ -26,8 +27,16 @@ class Answer(models.Model):
 
 
 class UserAnswer(models.Model):
+    username = models.TextField()
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+
+    def save(
+            self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        if self.question_id != self.answer.question_id:
+            raise ValidationError("Ответ не относиться к этому вопросу")
+        super().save(force_insert=False, force_update=False, using=None, update_fields=None)
 
     def __str__(self):
         return self.question.text
